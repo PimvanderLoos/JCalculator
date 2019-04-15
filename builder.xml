@@ -1,0 +1,55 @@
+<?xml version="1.0" ?>
+<project name="JCalculator" default="jar" basedir=".">
+
+	<property name="cup"      location="src/cup"      />
+	<property name="jflex"    location="src/jflex"    />
+	<property name="lib"      location="lib"          />
+	
+	<taskdef  name="jflex" classname="jflex.anttask.JFlexTask"   classpath="/home/pim/Documents/workspace/JCalculator/lib/jflex-1.7.0.jar"   />
+	<taskdef  name="cup"   classname="java_cup.anttask.CUPTask"  classpath="/home/pim/Documents/workspace/JCalculator/lib/java-cup-11a.jar"  />
+	  
+	<target name="init">
+	    <mkdir dir="bin"/>
+	</target>
+	
+	<target name="generate" depends="init">
+	    <!---->
+        <jflex file="/home/pim/Documents/workspace/JCalculator/src/jflex/scanner.jflex"  destdir="/home/pim/Documents/workspace/JCalculator/src/jflex/" />
+        <cup srcfile="/home/pim/Documents/workspace/JCalculator/src/cup/parser.cup"      destdir="/home/pim/Documents/workspace/JCalculator/src/cup/" 
+             interface="true" parser="parser"/> 
+
+		<move file="/home/pim/Documents/workspace/JCalculator/src/jflex/jflex/scanner.java" tofile="/home/pim/Documents/workspace/JCalculator/src/jflex/scanner.java"/>
+        <move file="/home/pim/Documents/workspace/JCalculator/src/cup/cup/parser.java" tofile="/home/pim/Documents/workspace/JCalculator/src/cup/parser.java"/>
+        <move file="/home/pim/Documents/workspace/JCalculator/src/cup/cup/sym.java" tofile="/home/pim/Documents/workspace/JCalculator/src/cup/sym.java"/>
+
+		<delete dir="/home/pim/Documents/workspace/JCalculator/src/jflex/jflex"/>
+        <delete dir="/home/pim/Documents/workspace/JCalculator/src/cup/cup"/>
+	</target>
+
+	  
+	<path id="libraries">
+	    <files includes="/home/pim/Documents/workspace/JCalculator/lib/java-cup-11b-runtime.jar" />
+	</path>
+			
+			
+	<target name="compile" depends="generate">
+	    <!--<javac srcdir="/home/pim/Documents/workspace/JCalculator/src" destdir="bin">
+	        <classpath refid="libraries" />
+	    </javac>-->
+	    <javac srcdir="/home/pim/Documents/workspace/JCalculator/src" destdir="bin">
+        	<classpath>
+	        	<pathelement path="/home/pim/Documents/workspace/JCalculator/lib/java-cup-11b-runtime.jar"/>
+        	</classpath>
+    	</javac>
+    </target>
+
+	<target name="jar" depends="compile">
+	    <jar jarfile="/home/pim/Documents/workspace/JCalculator/JCalculator.jar" basedir="bin">
+    	<zipgroupfileset dir="/home/pim/Documents/workspace/JCalculator/lib/" includes="java-cup-11b-runtime.jar" />
+	    <manifest>
+	       <attribute name="Main-Class" value="nl.pim16aap2.jcalculator.JCalculator" />
+	       <attribute name="Class-Path" value="java-cup-11b-runtime.jar" />
+	    </manifest>
+	    </jar>
+	  </target>
+</project>

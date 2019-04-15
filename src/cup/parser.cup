@@ -1,0 +1,94 @@
+package cup;
+
+import java_cup.runtime.*;
+import java.util.Vector;
+
+parser code {:
+    private Vector<Double> results = new Vector<>();
+
+    public void addResult(double val)
+    {
+        results.add(val);
+    }
+
+    public Vector<Double> getResults()
+    {
+        return results;
+    }
+
+:}
+
+/* Terminals (tokens returned by the scanner). */
+terminal            SEMI, PLUS, MINUS, TIMES, DIVIDE, MIN, MAX, SQRT, EXP, COMMA;
+terminal            UMINUS, LPAREN, RPAREN;
+terminal Integer    NUMBER, ID;
+
+/* Non terminals */
+non terminal            expr_list, expr_part;
+non terminal Integer    expr;
+
+/* Precedences */
+precedence left PLUS, MINUS;
+precedence left TIMES, DIVIDE;
+precedence left UMINUS;
+
+          /* The grammar */
+expr_list ::= expr_list expr_part 
+          | 
+              expr_part;
+
+expr_part ::= expr:e 
+          //{: System.out.println("= " + e); :} 
+          {: parser.addResult(e); System.out.println("= " + e); RESULT = e; :} 
+              SEMI              
+          ;
+
+expr      ::= expr:e1 PLUS expr:e2    
+          {: RESULT = new Integer(e1.intValue() + e2.intValue()); :} 
+          | 
+          
+            expr:e1 MINUS expr:e2    
+          {: RESULT = new Integer(e1.intValue() - e2.intValue()); :} 
+          | 
+          
+              expr:e1 TIMES expr:e2 
+          {: RESULT = new Integer(e1.intValue() * e2.intValue()); :} 
+          | 
+          
+              expr:e1 DIVIDE expr:e2 
+          {: RESULT = new Integer(e1.intValue() / e2.intValue()); :} 
+
+          |
+              MIN LPAREN expr:e1 COMMA expr:e2 RPAREN
+          {: RESULT = new Integer(Math.min(e1, e2)); :}
+          
+          |
+              MAX LPAREN expr:e1 COMMA expr:e2 RPAREN
+          {: RESULT = new Integer(Math.max(e1, e2)); :}
+
+          |
+              SQRT LPAREN expr:e RPAREN
+          {: RESULT = new Integer((int) Math.sqrt(e)); :}
+          
+          |
+              expr:e1 EXP LPAREN expr:e2 RPAREN
+          {: RESULT = new Integer((int) Math.pow(e1, e2)); :}
+
+          | 
+              NUMBER:n                 
+          {: RESULT = n; :} 
+          
+          |
+              ID:n
+          {: RESULT = n; :}
+          
+          | 
+              MINUS expr:e             
+          {: RESULT = new Integer(0 - e.intValue()); :} 
+          %prec UMINUS
+          
+          | 
+              LPAREN expr:e RPAREN     
+          {: RESULT = e; :} 
+          ;
+
