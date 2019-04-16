@@ -21,11 +21,11 @@ parser code {:
 /* Terminals (tokens returned by the scanner). */
 terminal            SEMI, PLUS, MINUS, TIMES, DIVIDE, MIN, MAX, SQRT, EXP, COMMA;
 terminal            UMINUS, LPAREN, RPAREN;
-terminal Integer    NUMBER, ID;
+terminal Double     NUMBER, ID;
 
 /* Non terminals */
 non terminal            expr_list, expr_part;
-non terminal Integer    expr;
+non terminal Double     expr;
 
 /* Precedences */
 precedence left PLUS, MINUS;
@@ -44,35 +44,35 @@ expr_part ::= expr:e
           ;
 
 expr      ::= expr:e1 PLUS expr:e2    
-          {: RESULT = new Integer(e1.intValue() + e2.intValue()); :} 
+          {: RESULT = new Double(e1.doubleValue() + e2.doubleValue()); :} 
           | 
           
             expr:e1 MINUS expr:e2    
-          {: RESULT = new Integer(e1.intValue() - e2.intValue()); :} 
+          {: RESULT = new Double(e1.doubleValue() - e2.doubleValue()); :} 
           | 
           
               expr:e1 TIMES expr:e2 
-          {: RESULT = new Integer(e1.intValue() * e2.intValue()); :} 
+          {: RESULT = new Double(e1.doubleValue() * e2.doubleValue()); :} 
           | 
           
               expr:e1 DIVIDE expr:e2 
-          {: RESULT = new Integer(e1.intValue() / e2.intValue()); :} 
+          {: RESULT = new Double(e1.doubleValue() / e2.doubleValue()); :} 
 
           |
               MIN LPAREN expr:e1 COMMA expr:e2 RPAREN
-          {: RESULT = new Integer(Math.min(e1, e2)); :}
+          {: RESULT = new Double(Math.min(e1, e2)); :}
           
           |
               MAX LPAREN expr:e1 COMMA expr:e2 RPAREN
-          {: RESULT = new Integer(Math.max(e1, e2)); :}
+          {: RESULT = new Double(Math.max(e1, e2)); :}
 
           |
               SQRT LPAREN expr:e RPAREN
-          {: RESULT = new Integer((int) Math.sqrt(e)); :}
+          {: RESULT = new Double((int) Math.sqrt(e)); :}
           
           |
               expr:e1 EXP LPAREN expr:e2 RPAREN
-          {: RESULT = new Integer((int) Math.pow(e1, e2)); :}
+          {: RESULT = new Double((int) Math.pow(e1, e2)); :}
 
           | 
               NUMBER:n                 
@@ -84,7 +84,7 @@ expr      ::= expr:e1 PLUS expr:e2
           
           | 
               MINUS expr:e             
-          {: RESULT = new Integer(0 - e.intValue()); :} 
+          {: RESULT = new Double(0 - e.doubleValue()); :} 
           %prec UMINUS
           
           | 

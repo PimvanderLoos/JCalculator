@@ -20,7 +20,7 @@ return new Symbol(type, yyline, yycolumn, value);
 %}
 
 WhiteSpace = [ \t\f\r\n]
-Number = [0-9]+
+Number = [0-9]+ ("." [0-9]+)?
 
 %%
 "," { return symbol(sym.COMMA); }
@@ -34,7 +34,7 @@ Number = [0-9]+
 "min" { return symbol(sym.MIN); }
 "max" { return symbol(sym.MAX); }
 "sqrt" { return symbol(sym.SQRT); }
-"exp" { return symbol(sym.EXP); }
-{Number} { return symbol(sym.NUMBER, new Integer(yytext())); }
+"^" { return symbol(sym.EXP); }
+{Number} { return symbol(sym.NUMBER, Double.parseDouble(yytext())); }
 {WhiteSpace} { /* ignore */ }
 . { return symbol(sym.error, yytext()); }
