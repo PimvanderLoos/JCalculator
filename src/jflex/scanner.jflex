@@ -31,10 +31,12 @@ Number = [0-9]+ ("." [0-9]+)?
 "/" { return symbol(sym.DIVIDE); }
 "(" { return symbol(sym.LPAREN); }
 ")" { return symbol(sym.RPAREN); }
+"%" { return symbol(sym.MOD); }
+"^" { return symbol(sym.EXP); }
 "min" { return symbol(sym.MIN); }
 "max" { return symbol(sym.MAX); }
+"abs" { return symbol(sym.ABS); }
 "sqrt" { return symbol(sym.SQRT); }
-"^" { return symbol(sym.EXP); }
 {Number} { return symbol(sym.NUMBER, Double.parseDouble(yytext())); }
 {WhiteSpace} { /* ignore */ }
 . { return symbol(sym.error, yytext()); }
