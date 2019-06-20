@@ -5,7 +5,6 @@ import java.io.StringReader;
 import java.util.Vector;
 
 import cup.parser;
-import jflex.scanner;
 
 public class JCalculator
 {
@@ -32,7 +31,7 @@ public class JCalculator
 
     public static Vector<Double> getResults(java.io.Reader in) throws Exception
     {
-        parser p = new parser(new scanner(in));
+        parser p = new parser(new main.jflex.scanner(in));
         p.parse();
         return p.getResults();
     }
@@ -44,7 +43,7 @@ public class JCalculator
 
     public static Vector<Double> getResults_debug(java.io.Reader in) throws Exception
     {
-        parser p = new parser(new scanner(in));
+        parser p = new parser(new main.jflex.scanner(in));
         p.debug_parse();
         return p.getResults();
     }

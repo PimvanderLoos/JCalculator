@@ -1,4 +1,4 @@
-package jflex;
+package main.jflex;
 
 import cup.sym;
 import java_cup.runtime.*;
