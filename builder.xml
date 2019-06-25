@@ -1,53 +1,21 @@
 <?xml version="1.0" ?>
-<project name="JCalculator" default="cleanup" basedir=".">
-    <taskdef name="jflex" classname="jflex.anttask.JFlexTask"  classpath="${basedir}/lib/jflex-1.7.0.jar" />
-    <taskdef name="cup"   classname="java_cup.anttask.CUPTask" classpath="${basedir}/lib/java-cup-11a.jar"/>
- 
+<project name="JCalculator" default="generateParserScanner" basedir=".">
+    <taskdef name="jflex" classname="jflex.anttask.JFlexTask" classpath="${basedir}/lib/jflex-1.7.0.jar"/>
+    <taskdef name="cup" classname="java_cup.anttask.CUPTask" classpath="${basedir}/lib/java-cup-11a.jar"/>
+
     <target name="init">
         <mkdir dir="${basedir}/bin"/>
     </target>
-    
-    <target name="generate" depends = "init">
-        <!---->
-        <jflex file="${basedir}/src/jflex/scanner.jflex" destdir="${basedir}/src/jflex/" />
-        <cup srcfile="${basedir}/src/main/cup/parser.cup"     destdir="${basedir}/src/cup/" 
-             interface="true" parser="parser"/> 
 
-        <move file="${basedir}/src/jflex/main/jflex/scanner.java" tofile="${basedir}/src/jflex/scanner.java"/>
-        <move file="${basedir}/src/cup/cup/parser.java"      tofile="${basedir}/src/cup/parser.java"   />
-        <move file="${basedir}/src/cup/cup/sym.java"         tofile="${basedir}/src/cup/sym.java"      />
-
-        <delete dir="${basedir}/src/jflex/jflex"/>
-        <delete dir="${basedir}/src/cup/cup"    />
+    <target name="generateScanner">
+        <jflex file="${basedir}/src/main/java/nl/pim16aap2/jcalculator/jflex/scanner.jflex"
+               destdir="${basedir}/src/main/java/"/>
     </target>
 
-      
-    <path id="libraries">
-        <files includes="${basedir}/lib/java-cup-11b-runtime.jar" />
-    </path>
-            
-            
-    <target name="compile" depends="generate">
-        <javac srcdir="${basedir}/src" destdir="${basedir}/bin">
-            <classpath>
-                <pathelement path="${basedir}/lib/java-cup-11b-runtime.jar"/>
-            </classpath>
-        </javac>
+    <target name="generateParser">
+        <cup srcfile="${basedir}/src/main/java/nl/pim16aap2/jcalculator/cup/parser.cup"
+             destdir="${basedir}/src/main/java/" interface="true" parser="parser"/>
     </target>
 
-    <target name="jar" depends="compile">
-        <delete file="${basedir}/target/JCalculator.jar"/>
-        <jar jarfile="${basedir}/target/JCalculator.jar" basedir="${basedir}/bin">
-        <zipgroupfileset dir="${basedir}/lib/"    includes="java-cup-11b-runtime.jar"/>
-        <manifest>
-           <attribute name="Main-Class" value="nl.pim16aap2.jcalculator.JCalculator" />
-           <attribute name="Class-Path" value="java-cup-11b-runtime.jar"             />
-        </manifest>
-        </jar>
-<!--        <copy file="${basedir}/JCalculator.jar" tofile="${basedir}/target/JCalculator.jar"/>-->
-    </target>
-    
-    <target name="cleanup" depends="jar">
-        <delete dir="${basedir}/bin"/>
-    </target>
+    <target name="generateParserScanner" depends="generateScanner, generateParser"/>
 </project>

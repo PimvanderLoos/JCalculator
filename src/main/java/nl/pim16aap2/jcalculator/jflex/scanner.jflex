@@ -1,6 +1,6 @@
-package main.jflex;
+package nl.pim16aap2.jcalculator.jflex;
 
-import cup.sym;
+import nl.pim16aap2.jcalculator.cup.sym;
 import java_cup.runtime.*;
 %%
 %class scanner

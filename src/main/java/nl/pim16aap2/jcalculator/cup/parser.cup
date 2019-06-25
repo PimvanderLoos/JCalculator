@@ -1,4 +1,4 @@
-package cup;
+package nl.pim16aap2.jcalculator.cup;
 
 import java_cup.runtime.*;
 import java.util.Vector;
