@@ -36,7 +36,7 @@ hs_err_pid*
 .settings/*
 
 # Project-Specific files that should be generated.
-src/cup/parser.java
-src/cup/sym.java
-src/jflex/scanner.java
+src/main/java/nl/pim16aap2/jcalculator/cup/parser.java
+src/main/java/nl/pim16aap2/jcalculator/cup/sym.java
+src/main/java/nl/pim16aap2/jcalculator/jflex/scanner.java
 
