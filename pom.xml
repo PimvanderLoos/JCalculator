@@ -81,22 +81,36 @@
                 </dependencies>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.8</version>
+                <groupId>com.github.vbmacher</groupId>
+                <artifactId>cup-maven-plugin</artifactId>
+                <version>11b-20160615</version>
                 <executions>
                     <execution>
-                        <id>deploy-artifact</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <cupDefinition>${basedir}/src/main/java/nl/pim16aap2/jcalculator/parser.cup</cupDefinition>
+                    <outputDirectory>${basedir}/src/main/java/</outputDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>de.jflex</groupId>
+                <artifactId>maven-jflex-plugin</artifactId>
+                <version>1.4.3</version>
+                <executions>
+                    <execution>
                         <phase>generate-sources</phase>
                         <goals>
-                            <goal>run</goal>
+                            <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <target>
-                                <ant antfile="${basedir}/builder.xml">
-                                    <target name="generateParserScanner"/>
-                                </ant>
-                            </target>
+                            <outputDirectory>src/main/java</outputDirectory>
+                            <lexDefinitions>
+                                <lexDefinition>${basedir}/src/main/java/nl/pim16aap2/jcalculator/scanner.jflex</lexDefinition>
+                            </lexDefinitions>
                         </configuration>
                     </execution>
                 </executions>
@@ -179,6 +193,10 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <additionalOptions>-Xdoclint:none</additionalOptions>
+                    <additionalJOption>-Xdoclint:none</additionalJOption>
+                </configuration>
             </plugin>
         </plugins>
     </build>
