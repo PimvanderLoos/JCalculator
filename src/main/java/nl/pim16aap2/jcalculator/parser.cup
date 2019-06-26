@@ -1,0 +1,84 @@
+package nl.pim16aap2.jcalculator;
+
+import java_cup.runtime.*;
+import java.util.Vector;
+
+parser code 
+{:
+    private Vector<Double> results = new Vector<>();
+
+    public void addResult(double val)
+    {
+        results.add(val);
+    }
+
+    public Vector<Double> getResults()
+    {
+        return results;
+    }
+:}
+
+terminal        SEMI, PLUS, MINUS, TIMES, DIVIDE, MIN, MAX, SQRT, EXP, ABS, COMMA, MOD;
+terminal        UMINUS, LPAREN, RPAREN;
+terminal Double NUMBER, ID;
+
+non terminal        expr_list, expr_part;
+non terminal Double expr;
+
+precedence left PLUS, MINUS;
+precedence left TIMES, DIVIDE, MOD, EXP;
+precedence left UMINUS;
+
+expr_list ::= expr_list expr_part
+          |
+              expr_part;
+
+expr_part ::= expr:e
+          {: parser.addResult(e); RESULT = e; :}
+              SEMI
+          ;
+
+expr      ::= expr:e1 PLUS expr:e2
+          {: RESULT = new Double(e1.doubleValue() + e2.doubleValue()); :}
+          |
+              expr:e1 MINUS expr:e2
+          {: RESULT = new Double(e1.doubleValue() - e2.doubleValue()); :}
+          |
+              expr:e1 TIMES expr:e2
+          {: RESULT = new Double(e1.doubleValue() * e2.doubleValue()); :}
+          |
+              expr:e1 DIVIDE expr:e2
+          {: RESULT = new Double(e1.doubleValue() / e2.doubleValue()); :}
+          |
+              expr:e1 EXP expr:e2
+          {: RESULT = new Double(Math.pow(e1, e2)); :}
+          |
+              expr:e1 MOD expr:e2
+          {: RESULT = new Double(e1.doubleValue() % e2.doubleValue()); :}
+          |
+              MIN LPAREN expr:e1 COMMA expr:e2 RPAREN
+          {: RESULT = new Double(Math.min(e1, e2)); :}
+          |
+              MAX LPAREN expr:e1 COMMA expr:e2 RPAREN
+          {: RESULT = new Double(Math.max(e1, e2)); :}
+          |
+              ABS LPAREN expr:e RPAREN
+          {: RESULT = new Double(Math.abs(e)); :}
+          |
+              SQRT LPAREN expr:e RPAREN
+          {: RESULT = new Double(Math.sqrt(e)); :}
+          |
+              NUMBER:n
+          {: RESULT = n; :}
+          |
+              ID:n
+          {: RESULT = n; :}
+          |
+              MINUS expr:e
+          {: RESULT = new Double(0 - e.doubleValue()); :}
+          %prec UMINUS
+          |
+              LPAREN expr:e RPAREN
+          {: RESULT = e; :}
+          ;
+
