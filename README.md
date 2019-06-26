@@ -1,3 +1,5 @@
+[![Release](https://jitpack.io/v/PimvanderLoos/JCalculator.svg?style=flat-square)](https://jitpack.io/#PimvanderLoos/JCalculator/)
+
 ## JavaDocs
 JavaDocs can be found [here](https://javadoc.jitpack.io/com/github/PimvanderLoos/JCalculator/latest/javadoc/).
 
@@ -15,3 +17,4 @@ More info about adding this project as a dependency using Maven, Gradle, sbt, or
 - sqrt(144) = 12
 - max(10, sqrt(16)^4/100*4) = 10.4
 - x*x*x [with x = 2] = 8
+
