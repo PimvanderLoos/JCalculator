@@ -7,19 +7,27 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests to make sure all basic operators function properly.
+ * Unit tests to make sure everything works as expected.
  *
  * @author Pim
  */
 class JCalculatorTest
 {
+
+    /**
+     * Test expression evaluation.
+     *
+     * @param expression     The expression to evaluate.
+     * @param expectedResult The expected result of the evaluation.
+     * @see JCalculator#getResult(String, String[], double[])
+     */
     void test(String expression, double expectedResult)
     {
         Double result = null;
         try
         {
             result = JCalculator.getResult(expression);
-            assert(result == expectedResult);
+            assert (result == expectedResult);
         }
         catch (AssertionError e)
         {
@@ -32,8 +40,39 @@ class JCalculatorTest
         }
     }
 
+    /**
+     * Test variable substitution and expression evaluation.
+     *
+     * @param expression     The expression to evaluate.
+     * @param expectedResult The expected result of the evaluation.
+     * @param variables      The names of the variables to be substituted.
+     * @param values         The values of the variabes.
+     * @see JCalculator#getResult(String, String[], double[])
+     */
+    void test(String expression, double expectedResult, final String[] variables, final double[] values)
+    {
+        Double result = null;
+        try
+        {
+            result = JCalculator.getResult(expression, variables, values);
+            assert (result == expectedResult);
+        }
+        catch (AssertionError e)
+        {
+            fail("Expression: \"" + expression + "\". Expected result: " + expectedResult + ", obtained result: " + result);
+            throw e;
+        }
+        catch (Exception e)
+        {
+            fail(expression);
+        }
+    }
+
+    /**
+     * Test basic operations.
+     */
     @Test
-    void test()
+    void testBasic()
     {
         test("1+1", 2);
         test("2*2", 4);
@@ -46,6 +85,18 @@ class JCalculatorTest
         test("abs(-10)", 10);
         test("sqrt(144)", 12);
         test("max(10, sqrt(16)^4/100*4)", 10.24);
+    }
+
+    /**
+     * Test operations using variable substitution.
+     */
+    @Test
+    void testSubstitution()
+    {
+        test("2*x", 4, new String[]{"x"}, new double[]{2});
+        test("max(10, sqrt(16)^4/100*blockCount)", 10.24,
+                new String[]{"blockCount"}, new double[]{4});
+        test("x*x*x", 8, new String[]{"x"}, new double[]{2});
     }
 
 }
