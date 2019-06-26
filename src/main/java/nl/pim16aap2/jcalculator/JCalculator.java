@@ -5,7 +5,6 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.Vector;
 
-import nl.pim16aap2.jcalculator.cup.parser;
 
 /**
  * Class that can parse expressions from Strings.
@@ -14,11 +13,6 @@ import nl.pim16aap2.jcalculator.cup.parser;
  */
 public class JCalculator
 {
-    /**
-     * Allows this project to be used using CLI. Can process files or Strings.
-     *
-     * @param args
-     */
     public static void main(String[] args)
     {
         if (args.length == 0)
@@ -68,7 +62,7 @@ public class JCalculator
      */
     private static Vector<Double> getResults(java.io.Reader in) throws Exception
     {
-        parser p = new parser(new nl.pim16aap2.jcalculator.jflex.scanner(in));
+        parser p = new parser(new nl.pim16aap2.jcalculator.scanner(in));
         p.parse();
         return p.getResults();
     }
@@ -125,7 +119,7 @@ public class JCalculator
      */
     private static Vector<Double> getResults_debug(java.io.Reader in) throws Exception
     {
-        parser p = new parser(new nl.pim16aap2.jcalculator.jflex.scanner(in));
+        parser p = new parser(new nl.pim16aap2.jcalculator.scanner(in));
         p.debug_parse();
         return p.getResults();
     }

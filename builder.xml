@@ -8,14 +8,21 @@
     </target>
 
     <target name="generateScanner">
-        <jflex file="${basedir}/src/main/java/nl/pim16aap2/jcalculator/jflex/scanner.jflex"
+        <jflex file="${basedir}/src/main/java/nl/pim16aap2/jcalculator/scanner.jflex"
                destdir="${basedir}/src/main/java/"/>
     </target>
 
     <target name="generateParser">
-        <cup srcfile="${basedir}/src/main/java/nl/pim16aap2/jcalculator/cup/parser.cup"
+        <cup srcfile="${basedir}/src/main/java/nl/pim16aap2/jcalculator/parser.cup"
              destdir="${basedir}/src/main/java/" interface="true" parser="parser"/>
     </target>
 
-    <target name="generateParserScanner" depends="generateScanner, generateParser"/>
+    <target name="editParser" depends="generateParser">
+        <replaceregexp file="${basedir}/src/main/java/nl/pim16aap2/jcalculator/parser.java"
+                       match="public class" replace="class" byline="false"/>
+        <replaceregexp file="${basedir}/src/main/java/nl/pim16aap2/jcalculator/sym.java"
+                       match="public interface" replace="interface" byline="false"/>
+    </target>
+
+    <target name="generateParserScanner" depends="generateScanner, generateParser, editParser"/>
 </project>
