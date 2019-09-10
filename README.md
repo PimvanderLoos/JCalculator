@@ -7,7 +7,7 @@ JavaDocs can be found [here](https://javadoc.jitpack.io/com/github/PimvanderLoos
 More info about adding this project as a dependency using Maven, Gradle, sbt, or leiningen can be found [here](https://jitpack.io/#PimvanderLoos/JCalculator/LATEST).
 
 ## Supported operators
-+, -, *, /, %, ^, min(x,y), max(x,y), abs(x), sqrt(x).
++, -, *, /, %, ^, min(x,y), max(x,y), abs(x), sqrt(x), sin(x), cos(x), tan(x), asin(x), acos(x), atan(x), atan2(x, y).
 
 ## Supported characters
 '(', ')', ','

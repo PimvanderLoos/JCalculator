@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>nl.pim16aap2.jcalculator</groupId>
     <artifactId>JCalculator</artifactId>
-    <version>1.4</version>
+    <version>1.5</version>
     <packaging>jar</packaging>
     <name>JCalculator</name>
 
@@ -159,6 +159,7 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                    <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
             <plugin>
@@ -184,7 +185,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.1.1</version>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
@@ -194,6 +195,7 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <source>1.8</source>
                     <additionalOptions>-Xdoclint:none</additionalOptions>
                     <additionalJOption>-Xdoclint:none</additionalJOption>
                 </configuration>

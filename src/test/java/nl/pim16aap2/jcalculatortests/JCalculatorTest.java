@@ -13,6 +13,10 @@ import org.junit.jupiter.api.Test;
  */
 class JCalculatorTest
 {
+    /**
+     * Small value used for comparison of approximations.
+     */
+    private static final double EPS = 0.000001;
 
     /**
      * Test expression evaluation.
@@ -28,6 +32,32 @@ class JCalculatorTest
         {
             result = JCalculator.getResult(expression);
             assert (result == expectedResult);
+        }
+        catch (AssertionError e)
+        {
+            fail("Expression: \"" + expression + "\". Expected result: " + expectedResult + ", obtained result: " + result);
+            throw e;
+        }
+        catch (Exception e)
+        {
+            fail(expression);
+        }
+    }
+
+    /**
+     * Test expression approximated results of evaluation (e.g. sin).
+     *
+     * @param expression     The expression to evaluate.
+     * @param expectedResult The expected result of the evaluation.
+     * @see JCalculator#getResult(String, String[], double[])
+     */
+    void testApproximate(String expression, double expectedResult)
+    {
+        Double result = null;
+        try
+        {
+            result = JCalculator.getResult(expression);
+            assert (Math.abs(result - expectedResult) < EPS);
         }
         catch (AssertionError e)
         {
@@ -85,6 +115,16 @@ class JCalculatorTest
         test("abs(-10)", 10);
         test("sqrt(144)", 12);
         test("max(10, sqrt(16)^4/100*4)", 10.24);
+        testApproximate("sin(pi)", 0);
+        testApproximate("sin(0.5 * pi)", 1);
+        testApproximate("sin(0.5 * pi)", 1);
+        testApproximate("asin(1)", 1.57079633);
+        testApproximate("cos(pi)", -1);
+        testApproximate("acos(1)", 0);
+        testApproximate("tan(0)", 0);
+        testApproximate("tan(1)", 1.55740772465);
+        testApproximate("atan(1)", 0.785398163);
+        testApproximate("atan2(1, 2)", 0.463647609001);
     }
 
     /**

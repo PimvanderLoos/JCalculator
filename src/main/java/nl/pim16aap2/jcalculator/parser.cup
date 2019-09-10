@@ -18,9 +18,9 @@ parser code
     }
 :}
 
-terminal        SEMI, PLUS, MINUS, TIMES, DIVIDE, MIN, MAX, SQRT, EXP, ABS, COMMA, MOD;
+terminal        SEMI, PLUS, MINUS, TIMES, DIVIDE, MIN, MAX, SQRT, EXP, ABS, COMMA, MOD, SIN, ASIN, COS, ACOS, TAN, ATAN, ATAN2;
 terminal        UMINUS, LPAREN, RPAREN;
-terminal Double NUMBER, ID;
+terminal Double NUMBER, ID, PI;
 
 non terminal        expr_list, expr_part;
 non terminal Double expr;
@@ -68,8 +68,32 @@ expr      ::= expr:e1 PLUS expr:e2
               SQRT LPAREN expr:e RPAREN
           {: RESULT = new Double(Math.sqrt(e)); :}
           |
+              SIN LPAREN expr:e RPAREN
+          {: RESULT = new Double(Math.sin(e)); :}
+          |
+              ASIN LPAREN expr:e RPAREN
+          {: RESULT = new Double(Math.asin(e)); :}
+          |
+              COS LPAREN expr:e RPAREN
+          {: RESULT = new Double(Math.cos(e)); :}
+          |
+              ACOS LPAREN expr:e RPAREN
+          {: RESULT = new Double(Math.acos(e)); :}
+          |
+              TAN LPAREN expr:e RPAREN
+          {: RESULT = new Double(Math.tan(e)); :}
+          |
+              ATAN LPAREN expr:e RPAREN
+          {: RESULT = new Double(Math.atan(e)); :}
+          |
+              ATAN2 LPAREN expr:e1 COMMA expr:e2 RPAREN
+          {: RESULT = new Double(Math.atan2(e1, e2)); :}
+          |
               NUMBER:n
           {: RESULT = n; :}
+          |
+              PI:n
+          {: RESULT = Math.PI; :}
           |
               ID:n
           {: RESULT = n; :}

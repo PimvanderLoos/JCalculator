@@ -37,6 +37,14 @@ Number = [0-9]+ ("." [0-9]+)?
 "max" { return symbol(sym.MAX); }
 "abs" { return symbol(sym.ABS); }
 "sqrt" { return symbol(sym.SQRT); }
+"sin" { return symbol(sym.SIN); }
+"asin" { return symbol(sym.ASIN); }
+"cos" { return symbol(sym.COS); }
+"acos" { return symbol(sym.ACOS); }
+"tan" { return symbol(sym.TAN); }
+"atan" { return symbol(sym.ATAN); }
+"atan2" { return symbol(sym.ATAN2); }
+"pi" { return symbol(sym.PI); }
 {Number} { return symbol(sym.NUMBER, Double.parseDouble(yytext())); }
 {WhiteSpace} { /* ignore */ }
 . { return symbol(sym.error, yytext()); }
