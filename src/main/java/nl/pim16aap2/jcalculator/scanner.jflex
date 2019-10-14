@@ -45,6 +45,7 @@ Number = [0-9]+ ("." [0-9]+)?
 "atan" { return symbol(sym.ATAN); }
 "atan2" { return symbol(sym.ATAN2); }
 "pi" { return symbol(sym.PI); }
+"e" { return symbol(sym.E); }
 {Number} { return symbol(sym.NUMBER, Double.parseDouble(yytext())); }
 {WhiteSpace} { /* ignore */ }
 . { return symbol(sym.error, yytext()); }

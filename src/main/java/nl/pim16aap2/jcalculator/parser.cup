@@ -20,14 +20,14 @@ parser code
 
 terminal        SEMI, PLUS, MINUS, TIMES, DIVIDE, MIN, MAX, SQRT, EXP, ABS, COMMA, MOD, SIN, ASIN, COS, ACOS, TAN, ATAN, ATAN2;
 terminal        UMINUS, LPAREN, RPAREN;
-terminal Double NUMBER, ID, PI;
+terminal Double NUMBER, ID, PI, E;
 
-non terminal        expr_list, expr_part;
+non terminal expr_list, expr_part;
 non terminal Double expr;
 
-precedence left PLUS, MINUS;
-precedence left TIMES, DIVIDE, MOD, EXP;
-precedence left UMINUS;
+precedence left  PLUS, MINUS, TIMES, DIVIDE, MOD;
+precedence left  UMINUS;
+precedence right EXP;
 
 expr_list ::= expr_list expr_part
           |
@@ -51,7 +51,7 @@ expr      ::= expr:e1 PLUS expr:e2
           {: RESULT = new Double(e1.doubleValue() / e2.doubleValue()); :}
           |
               expr:e1 EXP expr:e2
-          {: RESULT = new Double(Math.pow(e1, e2)); :}
+          {: RESULT = Math.pow(e1, e2); :}
           |
               expr:e1 MOD expr:e2
           {: RESULT = new Double(e1.doubleValue() % e2.doubleValue()); :}
@@ -66,34 +66,37 @@ expr      ::= expr:e1 PLUS expr:e2
           {: RESULT = new Double(Math.abs(e)); :}
           |
               SQRT LPAREN expr:e RPAREN
-          {: RESULT = new Double(Math.sqrt(e)); :}
+          {: RESULT = Math.sqrt(e); :}
           |
               SIN LPAREN expr:e RPAREN
-          {: RESULT = new Double(Math.sin(e)); :}
+          {: RESULT = Math.sin(e); :}
           |
               ASIN LPAREN expr:e RPAREN
-          {: RESULT = new Double(Math.asin(e)); :}
+          {: RESULT = Math.asin(e); :}
           |
               COS LPAREN expr:e RPAREN
-          {: RESULT = new Double(Math.cos(e)); :}
+          {: RESULT = Math.cos(e); :}
           |
               ACOS LPAREN expr:e RPAREN
-          {: RESULT = new Double(Math.acos(e)); :}
+          {: RESULT = Math.acos(e); :}
           |
               TAN LPAREN expr:e RPAREN
-          {: RESULT = new Double(Math.tan(e)); :}
+          {: RESULT = Math.tan(e); :}
           |
               ATAN LPAREN expr:e RPAREN
-          {: RESULT = new Double(Math.atan(e)); :}
+          {: RESULT = Math.atan(e); :}
           |
               ATAN2 LPAREN expr:e1 COMMA expr:e2 RPAREN
-          {: RESULT = new Double(Math.atan2(e1, e2)); :}
+          {: RESULT = Math.atan2(e1, e2); :}
           |
               NUMBER:n
           {: RESULT = n; :}
           |
               PI:n
           {: RESULT = Math.PI; :}
+          |
+              E:n
+          {: RESULT = Math.E; :}
           |
               ID:n
           {: RESULT = n; :}
