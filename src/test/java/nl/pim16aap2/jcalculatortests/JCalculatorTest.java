@@ -117,6 +117,8 @@ class JCalculatorTest
         test("max(10, sqrt(16)^4/100*4)", 10.24);
         test("2^5*2^5", 1024);
         test("-2^10", -1024);
+        test("ln(1)", 0);
+        test("log(10)", 1);
         testApproximate("sin(pi)", 0);
         testApproximate("sin(0.5 * pi)", 1);
         testApproximate("sin(0.5 * pi)", 1);

@@ -44,6 +44,8 @@ Number = [0-9]+ ("." [0-9]+)?
 "tan" { return symbol(sym.TAN); }
 "atan" { return symbol(sym.ATAN); }
 "atan2" { return symbol(sym.ATAN2); }
+"log" { return symbol(sym.LOG); }
+"ln" { return symbol(sym.LN); }
 "pi" { return symbol(sym.PI); }
 "e" { return symbol(sym.E); }
 {Number} { return symbol(sym.NUMBER, Double.parseDouble(yytext())); }
