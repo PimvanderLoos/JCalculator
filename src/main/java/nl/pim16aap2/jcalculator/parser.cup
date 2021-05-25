@@ -21,7 +21,7 @@ parser code
 terminal        SEMI, PLUS, MINUS, TIMES, DIVIDE, MIN, MAX, SQRT, EXP, ABS, COMMA, MOD, SIN, ASIN, COS, ACOS, TAN, ATAN,
                 ATAN2, LOG, LN;
 terminal        UMINUS, LPAREN, RPAREN;
-terminal Double NUMBER, ID, PI, E;
+terminal Double NUMBER, PI, E;
 
 non terminal expr_list, expr_part;
 non terminal Double expr;
@@ -104,9 +104,6 @@ expr      ::= expr:e1 PLUS expr:e2
           |
               E:n
           {: RESULT = Math.E; :}
-          |
-              ID:n
-          {: RESULT = n; :}
           |
               MINUS expr:e
           {: RESULT = new Double(0 - e.doubleValue()); :}
