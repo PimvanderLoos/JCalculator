@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>nl.pim16aap2.jcalculator</groupId>
     <artifactId>JCalculator</artifactId>
-    <version>1.7</version>
+    <version>1.8</version>
     <packaging>jar</packaging>
     <name>JCalculator</name>
 
@@ -12,49 +12,37 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
 
-    <repositories>
-        <repository>
-            <id>junit-api</id>
-            <url>https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api</url>
-        </repository>
-        <repository>
-            <id>junit-engine</id>
-            <url>https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine</url>
-        </repository>
-        <repository>
-            <id>maven-surefire-plugin</id>
-            <url>https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin</url>
-        </repository>
-        <repository>
-            <id>maven-jar-plugin</id>
-            <url>https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-jar-plugin</url>
-        </repository>
-        <repository>
-            <id>google-replacer</id>
-            <url>https://mvnrepository.com/artifact/com.google.code.maven-replacer-plugin/replacer</url>
-        </repository>
-    </repositories>
+        <dependency.version.maven-compiler>3.8.1</dependency.version.maven-compiler>
+        <dependency.version.maven-shade>3.2.4</dependency.version.maven-shade>
+        <dependency.version.maven-javadoc>3.2.0</dependency.version.maven-javadoc>
+        <dependency.version.maven-jar>3.2.0</dependency.version.maven-jar>
+        <dependency.version.surefire>3.0.0-M5</dependency.version.surefire>
+        <dependency.version.google-replacer>1.5.3</dependency.version.google-replacer>
+        <dependency.version.jflex-plugin>1.8.2</dependency.version.jflex-plugin>
+        <dependency.version.cup-plugin>11b-20160615</dependency.version.cup-plugin>
+        <dependency.version.cup-runtime>11b</dependency.version.cup-runtime>
+        <dependency.version.junit>5.8.0-M1</dependency.version.junit>
+    </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.github.vbmacher</groupId>
             <artifactId>java-cup-runtime</artifactId>
-            <version>11b</version>
+            <version>${dependency.version.cup-runtime}</version>
             <scope>compile</scope>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.7.0</version>
+            <version>${dependency.version.junit}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.7.0</version>
+            <version>${dependency.version.junit}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -66,28 +54,19 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M5</version>
+                <version>${dependency.version.surefire}</version>
                 <configuration>
-                    <includes>
-                        <include>**/JCalculatorTest.java</include>
-                    </includes>
+                    <trimStackTrace>false</trimStackTrace>
+                    <useFile>false</useFile>
                     <skipTests>false</skipTests>
                     <testFailureIgnore>false</testFailureIgnore>
                 </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>3.0.0-M5</version>
-                    </dependency>
-                </dependencies>
             </plugin>
-
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>${dependency.version.maven-jar}</version>
                 <configuration>
                     <archive>
                         <manifest>
@@ -96,20 +75,12 @@
                         </manifest>
                     </archive>
                 </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-jar-plugin</artifactId>
-                        <version>3.2.0</version>
-                    </dependency>
-                </dependencies>
             </plugin>
-
 
             <plugin>
                 <groupId>com.github.vbmacher</groupId>
                 <artifactId>cup-maven-plugin</artifactId>
-                <version>11b-20160615</version>
+                <version>${dependency.version.cup-plugin}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -119,15 +90,14 @@
                 </executions>
                 <configuration>
                     <cupDefinition>${basedir}/src/main/java/nl/pim16aap2/jcalculator/parser.cup</cupDefinition>
-                    <outputDirectory>${basedir}/src/main/java/</outputDirectory>
+                    <outputDirectory>${project.build.directory}/generated-sources/</outputDirectory>
                 </configuration>
             </plugin>
-
 
             <plugin>
                 <groupId>de.jflex</groupId>
                 <artifactId>jflex-maven-plugin</artifactId>
-                <version>1.8.2</version>
+                <version>${dependency.version.jflex-plugin}</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
@@ -135,21 +105,21 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>src/main/java</outputDirectory>
+                            <outputDirectory>${project.build.directory}/generated-sources/</outputDirectory>
                             <lexDefinitions>
-                                <lexDefinition>${basedir}/src/main/java/nl/pim16aap2/jcalculator/scanner.jflex</lexDefinition>
+                                <lexDefinition>${basedir}/src/main/java/nl/pim16aap2/jcalculator/scanner.jflex
+                                </lexDefinition>
                             </lexDefinitions>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
 
-
             <!-- Make generated parser files package-private -->
             <plugin>
                 <groupId>com.google.code.maven-replacer-plugin</groupId>
                 <artifactId>replacer</artifactId>
-                <version>1.5.3</version>
+                <version>${dependency.version.google-replacer}</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
@@ -174,33 +144,23 @@
                         </replacement>
                     </replacements>
                 </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.google.code.maven-replacer-plugin</groupId>
-                        <artifactId>replacer</artifactId>
-                        <version>1.5.3</version>
-                    </dependency>
-                </dependencies>
             </plugin>
-
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>${dependency.version.maven-compiler}</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <encoding>UTF-8</encoding>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <encoding>${file.encoding}</encoding>
                 </configuration>
             </plugin>
-
-
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
+                <version>${dependency.version.maven-shade}</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -225,11 +185,10 @@
                 </executions>
             </plugin>
 
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>${dependency.version.maven-javadoc}</version>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
@@ -239,7 +198,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <source>1.8</source>
+                    <source>${maven.compiler.source}</source>
                     <additionalOptions>-Xdoclint:none</additionalOptions>
                     <additionalJOption>-Xdoclint:none</additionalJOption>
                 </configuration>

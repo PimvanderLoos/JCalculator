@@ -35,8 +35,4 @@ hs_err_pid*
 .project
 .settings/*
 
-# Project-Specific files that should be generated.
-**/parser.java
-**/sym.java
-**/scanner.java
 
