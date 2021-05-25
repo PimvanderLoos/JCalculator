@@ -1,18 +1,39 @@
 package nl.pim16aap2.jcalculator;
 
 import java_cup.runtime.*;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.OptionalDouble;
 
-parser code 
+parser code
 {:
-    private Vector<Double> results = new Vector<>();
+    private static final Variables EMPTY_VARIABLES = new Variables(Collections.emptyList(), new double[0]);
+
+    private Variables variables = EMPTY_VARIABLES;
+    private List<Double> results = new ArrayList();
+
+    public void setVariables(final Variables variables)
+    {
+        this.variables = variables;
+    }
+
+    private double getVariable(String word)
+    {
+        System.out.println("Checking word: " + word);
+        final OptionalDouble val = variables.getValue(word);
+        if (val.isPresent())
+            return val.getAsDouble();
+        throw new IllegalStateException("Failed to get value of parameter \"" + word +
+                                            "\" in variables: " + variables.toString());
+    }
 
     public void addResult(double val)
     {
         results.add(val);
     }
 
-    public Vector<Double> getResults()
+    public List<Double> getResults()
     {
         return results;
     }
@@ -22,6 +43,7 @@ terminal        SEMI, PLUS, MINUS, TIMES, DIVIDE, MIN, MAX, SQRT, EXP, ABS, COMM
                 ATAN2, LOG, LN;
 terminal        UMINUS, LPAREN, RPAREN;
 terminal Double NUMBER, PI, E;
+terminal String WORD;
 
 non terminal expr_list, expr_part;
 non terminal Double expr;
@@ -111,5 +133,9 @@ expr      ::= expr:e1 PLUS expr:e2
           |
               LPAREN expr:e RPAREN
           {: RESULT = e; :}
+          |
+
+              WORD:s
+          {: RESULT = parser.getVariable(s); :}
           ;
 

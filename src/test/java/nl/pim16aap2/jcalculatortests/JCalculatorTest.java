@@ -1,9 +1,7 @@
 package nl.pim16aap2.jcalculatortests;
 
 import nl.pim16aap2.jcalculator.JCalculator;
-
-import static org.junit.jupiter.api.Assertions.*;
-
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -27,20 +25,14 @@ class JCalculatorTest
      */
     void test(String expression, double expectedResult)
     {
-        Double result = null;
         try
         {
-            result = JCalculator.getResult(expression);
-            assert (result == expectedResult);
-        }
-        catch (AssertionError e)
-        {
-            fail("Expression: \"" + expression + "\". Expected result: " + expectedResult + ", obtained result: " + result);
-            throw e;
+            final double result = JCalculator.getResult(expression);
+            Assertions.assertEquals(expectedResult, result, expression);
         }
         catch (Exception e)
         {
-            fail(expression);
+            throw new RuntimeException("Failed to parse expression: " + expression, e);
         }
     }
 
@@ -53,20 +45,14 @@ class JCalculatorTest
      */
     void testApproximate(String expression, double expectedResult)
     {
-        Double result = null;
         try
         {
-            result = JCalculator.getResult(expression);
-            assert (Math.abs(result - expectedResult) < EPS);
-        }
-        catch (AssertionError e)
-        {
-            fail("Expression: \"" + expression + "\". Expected result: " + expectedResult + ", obtained result: " + result);
-            throw e;
+            final double result = JCalculator.getResult(expression);
+            Assertions.assertEquals(expectedResult, result, EPS, expression);
         }
         catch (Exception e)
         {
-            fail(expression);
+            throw new RuntimeException("Failed to parse expression: " + expression, e);
         }
     }
 
@@ -76,25 +62,19 @@ class JCalculatorTest
      * @param expression     The expression to evaluate.
      * @param expectedResult The expected result of the evaluation.
      * @param variables      The names of the variables to be substituted.
-     * @param values         The values of the variabes.
+     * @param values         The values of the variables.
      * @see JCalculator#getResult(String, String[], double[])
      */
     void test(String expression, double expectedResult, final String[] variables, final double[] values)
     {
-        Double result = null;
         try
         {
-            result = JCalculator.getResult(expression, variables, values);
-            assert (result == expectedResult);
-        }
-        catch (AssertionError e)
-        {
-            fail("Expression: \"" + expression + "\". Expected result: " + expectedResult + ", obtained result: " + result);
-            throw e;
+            final double result = JCalculator.getResult(expression, variables, values);
+            Assertions.assertEquals(expectedResult, result, expression);
         }
         catch (Exception e)
         {
-            fail(expression);
+            throw new RuntimeException("Failed to parse expression: " + expression, e);
         }
     }
 
@@ -139,8 +119,23 @@ class JCalculatorTest
     {
         test("2*x", 4, new String[]{"x"}, new double[]{2});
         test("max(10, sqrt(16)^4/100*blockCount)", 10.24,
-                new String[]{"blockCount"}, new double[]{4});
+             new String[]{"blockCount"}, new double[]{4});
         test("x*x*x", 8, new String[]{"x"}, new double[]{2});
-    }
+        test("xx*x*xxx", 4, new String[]{"xxx", "x", "xx"}, new double[]{1, 2, 2});
 
+        Assertions.assertThrows(IllegalStateException.class,
+                                () -> JCalculator.getResult("xx", new String[]{"x"}, new double[]{1}));
+
+        Assertions.assertThrows(IllegalArgumentException.class,
+                                () -> JCalculator.getResult("xx", new String[]{"xx"}, new double[]{1, 2}));
+
+        Assertions.assertThrows(IllegalArgumentException.class,
+                                () -> JCalculator.getResult("xx", new String[]{"xx"}, new double[0]));
+
+        Assertions.assertThrows(IllegalStateException.class,
+                                () -> JCalculator.getResult("xx", new String[]{"xx"}, null));
+
+        Assertions.assertThrows(IllegalStateException.class,
+                                () -> JCalculator.getResult("xx", null, new double[]{1}));
+    }
 }

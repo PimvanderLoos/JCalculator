@@ -21,6 +21,7 @@ return new Symbol(type, yyline, yycolumn, value);
 
 WhiteSpace = [ \t\f\r\n]
 Number = [0-9]+ ("." [0-9]+)?
+Word = [a-zA-Z]+
 
 %%
 "," { return symbol(sym.COMMA); }
@@ -49,5 +50,6 @@ Number = [0-9]+ ("." [0-9]+)?
 "pi" { return symbol(sym.PI); }
 "e" { return symbol(sym.E); }
 {Number} { return symbol(sym.NUMBER, Double.parseDouble(yytext())); }
+{Word} { return symbol(sym.WORD, yytext()); }
 {WhiteSpace} { /* ignore */ }
 . { return symbol(sym.error, yytext()); }
