@@ -17,15 +17,16 @@ public class JCalculator
     {
         if (args.length == 0)
         {
-            System.out.println("Please provide a String that contains an expression (e.g. \"1+1\") " +
-                                   "or a file containing one or more expressions (separated by ';'). For example -f expr.txt");
+            System.err.println(
+                "Please provide a String that contains an expression (e.g. \"1+1\") " +
+                    "or a file containing one or more expressions (separated by ';'). For example -f expr.txt");
             return;
         }
         if (args[0].equalsIgnoreCase("-f"))
         {
             if (args.length == 1)
             {
-                System.out.println("Please provide a file!");
+                System.err.println("Please provide a file!");
                 return;
             }
             try

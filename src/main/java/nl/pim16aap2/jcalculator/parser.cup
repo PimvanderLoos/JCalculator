@@ -20,7 +20,6 @@ parser code
 
     private double getVariable(String word)
     {
-        System.out.println("Checking word: " + word);
         final OptionalDouble val = variables.getValue(word);
         if (val.isPresent())
             return val.getAsDouble();
