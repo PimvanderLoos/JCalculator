@@ -138,4 +138,12 @@ class JCalculatorTest
         Assertions.assertThrows(IllegalStateException.class,
                                 () -> JCalculator.getResult("xx", null, new double[]{1}));
     }
+
+    @Test
+    void testOrdering()
+    {
+        test("128 / 2 + 128 / 2", 128);
+        test("128 / 4 + 128 / 4 + 32 * 2", 128);
+        test("2 ^ 6 - 16 * 2 + 8 * 4", 64);
+    }
 }

@@ -47,7 +47,8 @@ terminal String WORD;
 non terminal expr_list, expr_part;
 non terminal Double expr;
 
-precedence left  PLUS, MINUS, TIMES, DIVIDE, MOD;
+precedence left  PLUS, MINUS;
+precedence left  TIMES, DIVIDE, MOD;
 precedence left  UMINUS;
 precedence right EXP;
 
