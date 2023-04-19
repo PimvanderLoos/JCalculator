@@ -13,16 +13,17 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
-        <dependency.version.maven-compiler>3.8.1</dependency.version.maven-compiler>
-        <dependency.version.maven-shade>3.2.4</dependency.version.maven-shade>
-        <dependency.version.maven-javadoc>3.2.0</dependency.version.maven-javadoc>
-        <dependency.version.maven-jar>3.2.0</dependency.version.maven-jar>
-        <dependency.version.surefire>3.0.0-M5</dependency.version.surefire>
+        <dependency.version.maven-compiler>3.11.0</dependency.version.maven-compiler>
+        <dependency.version.maven-shade>3.4.1</dependency.version.maven-shade>
+        <dependency.version.maven-javadoc>3.5.0</dependency.version.maven-javadoc>
+        <dependency.version.maven-source>3.2.1</dependency.version.maven-source>
+        <dependency.version.maven-jar>3.3.0</dependency.version.maven-jar>
+        <dependency.version.surefire>3.0.0</dependency.version.surefire>
         <dependency.version.google-replacer>1.5.3</dependency.version.google-replacer>
-        <dependency.version.jflex-plugin>1.8.2</dependency.version.jflex-plugin>
-        <dependency.version.cup-plugin>11b-20160615</dependency.version.cup-plugin>
-        <dependency.version.cup-runtime>11b</dependency.version.cup-runtime>
-        <dependency.version.junit>5.8.0-M1</dependency.version.junit>
+        <dependency.version.jflex-plugin>1.9.1</dependency.version.jflex-plugin>
+        <dependency.version.cup-plugin>11b-20160615-2</dependency.version.cup-plugin>
+        <dependency.version.cup-runtime>11b-20160615-2</dependency.version.cup-runtime>
+        <dependency.version.junit>5.9.2</dependency.version.junit>
     </properties>
 
     <dependencies>
@@ -207,6 +208,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
+                <version>${dependency.version.maven-source}</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
