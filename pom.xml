@@ -2,29 +2,36 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>nl.pim16aap2.jcalculator</groupId>
     <artifactId>JCalculator</artifactId>
-    <version>1.10</version>
+    <version>2.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>JCalculator</name>
+
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>Java math expression evaluator</description>
+    <url>http://github.com/PimvanderLoos/JCalculator</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
-        <dependency.version.maven-compiler>3.14.0</dependency.version.maven-compiler>
-        <dependency.version.maven-shade>3.6.0</dependency.version.maven-shade>
-        <dependency.version.maven-gpg>3.2.8</dependency.version.maven-gpg>
-        <dependency.version.maven-javadoc>3.11.2</dependency.version.maven-javadoc>
-        <dependency.version.maven-source>3.3.1</dependency.version.maven-source>
-        <dependency.version.maven-jar>3.4.2</dependency.version.maven-jar>
-        <dependency.version.surefire>3.5.3</dependency.version.surefire>
-        <dependency.version.google-replacer>1.5.3</dependency.version.google-replacer>
-        <dependency.version.jflex-plugin>1.9.1</dependency.version.jflex-plugin>
         <dependency.version.cup-plugin>11b-20160615-2</dependency.version.cup-plugin>
         <dependency.version.cup-runtime>11b-20160615-2</dependency.version.cup-runtime>
+
+        <dependency.version.central-publishing>0.8.0</dependency.version.central-publishing>
+        <dependency.version.google-replacer>1.5.3</dependency.version.google-replacer>
+        <dependency.version.jflex-plugin>1.9.1</dependency.version.jflex-plugin>
         <dependency.version.junit>5.13.4</dependency.version.junit>
+        <dependency.version.maven-compiler>3.14.0</dependency.version.maven-compiler>
+        <dependency.version.maven-gpg>3.2.8</dependency.version.maven-gpg>
+        <dependency.version.maven-jar>3.4.2</dependency.version.maven-jar>
+        <dependency.version.maven-javadoc>3.11.2</dependency.version.maven-javadoc>
+        <dependency.version.maven-release>3.1.1</dependency.version.maven-release>
+        <dependency.version.maven-shade>3.6.0</dependency.version.maven-shade>
+        <dependency.version.maven-source>3.3.1</dependency.version.maven-source>
+        <dependency.version.surefire>3.5.3</dependency.version.surefire>
     </properties>
 
     <dependencies>
@@ -51,6 +58,18 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>${dependency.version.central-publishing}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                    <autoPublish>true</autoPublish>
+                    <waitUntil>published</waitUntil>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -244,4 +263,25 @@
             </build>
         </profile>
     </profiles>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>pimvanderloos</id>
+            <name>Pim van der Loos</name>
+            <url>https://github.com/PimvanderLoos</url>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/PimvanderLoos/JCalculator.git</connection>
+        <developerConnection>scm:git:ssh://github.com:PimvanderLoos/JCalculator.git</developerConnection>
+        <url>http://github.com/PimvanderLoos/JCalculator/tree/master</url>
+    </scm>
 </project>
