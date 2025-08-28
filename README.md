@@ -1,7 +1,7 @@
 [![Release](https://jitpack.io/v/PimvanderLoos/JCalculator.svg?style=flat-square)](https://jitpack.io/#PimvanderLoos/JCalculator/)
 
 ## JavaDocs
-JavaDocs can be found [here](https://javadoc.jitpack.io/com/github/PimvanderLoos/JCalculator/latest/javadoc/).
+JavaDocs can be found [here](http://jcalculator.pim16aap2.nl/).
 
 ## Adding this project a dependency
 More info about adding this project as a dependency using Maven, Gradle, sbt, or leiningen can be found [here](https://jitpack.io/#PimvanderLoos/JCalculator/LATEST).
