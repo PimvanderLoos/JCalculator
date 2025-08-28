@@ -1,0 +1,52 @@
+name: Build, sign, and upload
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build-sign-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      MAVEN_GPG_PASSPHRASE:     ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+      MAVEN_GPG_KEY:            ${{ secrets.MAVEN_GPG_KEY }}
+      MAVEN_GPG_KEY_FINGERPRINT: 6C063BAA00065DFED08D7CD6B21CB73DBBF60FE5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 8 + GPG
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 8
+          cache: maven
+          gpg-private-key: ${{ secrets.MAVEN_GPG_KEY }}
+          gpg-passphrase:  MAVEN_GPG_PASSPHRASE
+
+      - name: Build, test, and sign
+        env:
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+        run: |
+          mvn --batch-mode --show-version --no-transfer-progress \
+            -Psign \
+            -Dgpg.keyname=6C063BAA00065DFED08D7CD6B21CB73DBBF60FE5 \
+            javadoc:javadoc \
+            clean verify
+
+      - name: Deploy Javadoc to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: target/reports/apidocs
+          target-folder: /
+
+      - name: Upload build artifacts (JARs + .asc)
+        uses: actions/upload-artifact@v4
+        with:
+          name: jcalculator-${{ github.sha }}
+          if-no-files-found: error
+          path: |
+            target/JCalculator-*.jar*
