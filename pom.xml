@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>nl.pim16aap2.jcalculator</groupId>
-    <artifactId>JCalculator</artifactId>
+    <artifactId>jcalculator</artifactId>
     <version>2.0.4-SNAPSHOT</version>
     <packaging>jar</packaging>
 

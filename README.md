@@ -1,4 +1,4 @@
-[![Maven Central Version](https://img.shields.io/maven-central/v/nl.pim16aap2.jcalculator/JCalculator)](https://central.sonatype.com/artifact/nl.pim16aap2.jcalculator/JCalculator)
+[![Maven Central Version](https://img.shields.io/maven-central/v/nl.pim16aap2.jcalculator/jcalculator)](https://central.sonatype.com/artifact/nl.pim16aap2.jcalculator/jcalculator)
 
 ## JavaDocs
 

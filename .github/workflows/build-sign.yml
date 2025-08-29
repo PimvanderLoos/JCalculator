@@ -41,4 +41,4 @@ jobs:
           name: jcalculator-${{ github.sha }}
           if-no-files-found: error
           path: |
-            target/JCalculator-*
+            target/jcalculator-*

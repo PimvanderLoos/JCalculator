@@ -71,7 +71,7 @@ jobs:
           name: jcalculator-${{ github.sha }}
           if-no-files-found: error
           path: |
-            target/JCalculator-*.jar*
+            target/jcalculator-*.jar*
 
       - name: Deploy Javadoc to GitHub Pages (optional)
         uses: JamesIves/github-pages-deploy-action@6c2d9db40f9296374acc17b90404b6e8864128c8 # v4.7.3
@@ -92,4 +92,4 @@ jobs:
           tag_name: v${{ inputs.releaseVersion }}
           target_commitish: ${{ github.sha }}
           files: |
-            target/JCalculator-${{ inputs.releaseVersion }}.jar*
+            target/jcalculator-${{ inputs.releaseVersion }}.jar*

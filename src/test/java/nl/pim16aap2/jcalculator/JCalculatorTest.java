@@ -1,6 +1,5 @@
-package nl.pim16aap2.jcalculatortests;
+package nl.pim16aap2.jcalculator;
 
-import nl.pim16aap2.jcalculator.JCalculator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
