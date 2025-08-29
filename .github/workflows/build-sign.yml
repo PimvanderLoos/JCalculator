@@ -1,4 +1,4 @@
-name: Build, sign, and upload
+name: Build, test, sign, and upload
 
 on:
   push:
@@ -32,6 +32,7 @@ jobs:
             -Psign \
             -Dgpg.keyname=6C063BAA00065DFED08D7CD6B21CB73DBBF60FE5 \
             clean \
+            test \
             verify
 
       - name: Upload build artifacts (JARs + .asc)
