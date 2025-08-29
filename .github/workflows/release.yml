@@ -12,6 +12,9 @@ on:
         required: true
         type: string
 
+permissions:
+  contents: write
+
 jobs:
   build-release-deploy:
     runs-on: ubuntu-latest
@@ -75,3 +78,11 @@ jobs:
           branch: gh-pages
           folder: target/reports/apidocs
           target-folder: /
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ inputs.releaseVersion }}
+          target_commitish: ${{ github.sha }}
+          files: |
+            target/JCalculator-*.jar*
