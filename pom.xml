@@ -72,6 +72,17 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>${dependency.version.maven-release}</version>
+                <configuration>
+                    <signTag>true</signTag>
+                    <tagNameFormat>v@{project.version}</tagNameFormat>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${dependency.version.surefire}</version>
                 <configuration>
@@ -187,12 +198,12 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
                             <artifactSet>
                                 <includes>
                                     <include>com.github.vbmacher:java-cup-runtime</include>
                                 </includes>
                             </artifactSet>
-
                             <relocations>
                                 <relocation>
                                     <pattern>java_cup.runtime</pattern>
@@ -280,8 +291,9 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git://github.com/PimvanderLoos/JCalculator.git</connection>
-        <developerConnection>scm:git:ssh://github.com:PimvanderLoos/JCalculator.git</developerConnection>
-        <url>http://github.com/PimvanderLoos/JCalculator/tree/master</url>
+        <url>https://github.com/PimvanderLoos/JCalculator.git</url>
+        <connection>scm:git:${project.scm.url}</connection>
+        <developerConnection>scm:git:${project.scm.url}</developerConnection>
+        <tag>HEAD</tag>
     </scm>
 </project>

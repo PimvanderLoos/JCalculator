@@ -1,7 +1,77 @@
-name: Publish Release and Deploy to Maven Central
+name: Publish release and deploy to Maven Central
 
+on:
+  workflow_dispatch:
+    inputs:
+      releaseVersion:
+        description: Release Version. e.g., 1.10.1
+        required: true
+        type: string
+      nextDevVersion:
+        description: Next Dev Version. e.g., 1.10.2-SNAPSHOT
+        required: true
+        type: string
 
 jobs:
-  build-sign-publish:
+  build-release-deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 60
+    env:
+      MAVEN_GPG_FINGERPRINT: 6C063BAA00065DFED08D7CD6B21CB73DBBF60FE5
+      MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+      MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+      MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git identity + sign commits & tags
+        run: |
+          git config --global user.name  "PimvanderLoos"
+          git config --global user.email "3114723+PimvanderLoos@users.noreply.github.com"
+          git config --global user.signingkey ${MAVEN_GPG_FINGERPRINT}
+          git config --global commit.gpgsign true
+          git config --global tag.gpgSign true
+
+      - name: Set up JDK 8 + GPG + Central creds
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 8
+          cache: maven
+          gpg-private-key: ${{ secrets.MAVEN_GPG_KEY }}
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+          server-id: central
+          server-username: MAVEN_CENTRAL_USERNAME
+          server-password: MAVEN_CENTRAL_TOKEN
+
+      - name: Prepare release (commits + tag)
+        run: |
+          mvn --batch-mode --show-version --no-transfer-progress \
+            -DreleaseVersion='${{ inputs.releaseVersion }}' \
+            -DdevelopmentVersion='${{ inputs.nextDevVersion }}' \
+            -DsignTag=true \
+            -Darguments="-Psign -Dgpg.keyname=${MAVEN_GPG_FINGERPRINT}" \
+            release:prepare
+
+      - name: Upload build artifacts (JARs + .asc)
+        uses: actions/upload-artifact@v4
+        with:
+          name: jcalculator-${{ github.sha }}
+          if-no-files-found: error
+          path: |
+            target/JCalculator-*.jar*
+
+      - name: Perform release (builds tag, signs, deploys to Central)
+        run: |
+          mvn --batch-mode --show-version --no-transfer-progress \
+            -Darguments="-Psign -Dgpg.keyname=${MAVEN_GPG_FINGERPRINT}" \
+            release:perform
+
+      - name: Deploy Javadoc to GitHub Pages (optional)
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: target/reports/apidocs
+          target-folder: /
