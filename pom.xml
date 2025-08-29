@@ -4,7 +4,7 @@
 
     <groupId>nl.pim16aap2.jcalculator</groupId>
     <artifactId>JCalculator</artifactId>
-    <version>2.0.2-SNAPSHOT</version>
+    <version>2.0.2</version>
     <packaging>jar</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -293,6 +293,6 @@
         <url>https://github.com/PimvanderLoos/JCalculator.git</url>
         <connection>scm:git:${project.scm.url}</connection>
         <developerConnection>scm:git:${project.scm.url}</developerConnection>
-        <tag>HEAD</tag>
+        <tag>v2.0.2</tag>
     </scm>
 </project>
