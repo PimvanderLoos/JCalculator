@@ -20,6 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     env:
+      TIMEOUT_SECONDS: 3600
       MAVEN_GPG_FINGERPRINT: 6C063BAA00065DFED08D7CD6B21CB73DBBF60FE5
       MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
       MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
@@ -36,8 +37,14 @@ jobs:
           git config --global user.signingkey ${MAVEN_GPG_FINGERPRINT}
           git config --global commit.gpgsign true
           git config --global tag.gpgSign true
+          mkdir -p ~/.gnupg
+          echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
+          echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
+          echo "default-cache-ttl-ssh ${TIMEOUT_SECONDS}" >> ~/.gnupg/gpg-agent.conf
+          echo "max-cache-ttl-ssh ${TIMEOUT_SECONDS}" >> ~/.gnupg/gpg-agent.conf
+          gpg-connect-agent reloadagent /bye
 
-      - name: Set up JDK 8 + GPG + Central creds
+      - name: Set up JDK 8 + GPG + Central credentials
         uses: actions/setup-java@dded0888837ed1f317902acf8a20df0ad188d165 # v5.0.0
         with:
           distribution: temurin
@@ -66,18 +73,18 @@ jobs:
           path: |
             target/JCalculator-*.jar*
 
-      - name: Perform release (builds tag, signs, deploys to Central)
-        run: |
-          mvn --batch-mode --show-version --no-transfer-progress \
-            -Darguments="-Psign -Dgpg.keyname=${MAVEN_GPG_FINGERPRINT}" \
-            release:perform
-
       - name: Deploy Javadoc to GitHub Pages (optional)
         uses: JamesIves/github-pages-deploy-action@6c2d9db40f9296374acc17b90404b6e8864128c8 # v4.7.3
         with:
           branch: gh-pages
           folder: target/reports/apidocs
           target-folder: /
+
+      - name: Perform release (builds tag, signs, deploys to Central)
+        run: |
+          mvn --batch-mode --show-version --no-transfer-progress \
+            -Darguments="-Psign -Dgpg.keyname=${MAVEN_GPG_FINGERPRINT}" \
+            release:perform
 
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@72f2c25fcb47643c292f7107632f7a47c1df5cd8 # v2.3.2
